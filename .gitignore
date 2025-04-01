@@ -1,0 +1,10 @@
+﻿**/config/classlist.xml
+**.dep
+**.prn
+**.manifest
+**.dbg
+**.exe
+**/IdeSrc/*
+**/LoginEncryptionKey.inc
+Demo/Programs/**.dll
+Demo/Programs/**.mgc

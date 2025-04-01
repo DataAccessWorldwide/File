@@ -1,0 +1,16 @@
+﻿Use File\Type.pkg
+
+Global_Variable String gsBuffer 255
+// Get mime encoding
+Get FileMimeEncodingOfBuffer (StringToUCharArray("text")) to gsBuffer
+// Get match
+Global_Variable Integer iErr
+#IFDEF IS$WIN64
+Get FileMatchesPattern "application/*" "Demo64.exe" to iErr
+#ELSE
+Get FileMatchesPattern "application/*" "Demo.exe" to iErr
+#ENDIF
+
+Showln gsBuffer
+Showln iErr
+Inkey WindowIndex
