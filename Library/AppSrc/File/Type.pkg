@@ -402,25 +402,33 @@ Function FileMatchesPattern Global String sPattern String sFilename Boolean bOpt
     Function_Return C_FileMatch_NoMatch
 End_Function
 
-Procedure FileThrow Global Integer iErr String sFilename
+Function FileErrToMessage Global Integer iErr String sFileName Returns String
     Case Begin
         Case (iErr = C_FileMatch_File_Not_Found)
-            Error 8710 ("The to be scanned file '" + sFilename + "', does not exist.")
+            Function_Return ("The to be scanned file '" + sFileName + "', does not exist.")
             Case Break
         Case (iErr = C_FileMatch_NoMatch)
-            Error 8710 ("The scanned file '" + sFilename + "', is not matching the required file-types.")
+            Function_Return ("The scanned file '" + sFileName + "', is not matching the required file-types.")
             Case Break
         Case (iErr = C_FileMatch_FileDoesNotMatchContent)
-            Error 8710 ("The scanned file '" + sFilename + "'s extention, does not match it's contents.")
+            Function_Return ("The scanned file '" + sFileName + "'s extention, does not match it's contents.")
             Case Break
         Case (iErr = C_FileMatch_No_Init)
-            Error 8710 "The file-detection tool could not be initialised."
+            Function_Return "The file-detection tool could not be initialised."
             Case Break
         Case (iErr = C_FileMatch_Match)
-            // Nothing
+            Function_Return "The file matched"
             Case Break
         Case Else
-            Error 8710 "An unknown file-detection error occured."
+            Function_Return "An unknown file-detection error occured."
             Case Break
     Case End
+End_Function
+
+Procedure FileThrow Global Integer iErr String sFileName
+    If (not(iErr)) Begin
+        Procedure_Return
+    End
+    
+    Error 8710 (FileErrToMessage(iErr, sFileName))
 End_Procedure
